@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('git-checkout') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Desmondotutu/Petclinic.git'
+                git branch: 'main' url: 'https://github.com/Desmondotutu/Petclinic.git'
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
         stage('Sonar Analysis') {
             steps {
                withSonarQubeEnv('SonarqubeServer10'){
-                   sh "${maven}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+                   sh "${SCANNER_HOME}/bin/sonar:sonar -Dsonar.projectKey=java"
                }
             }
         }
