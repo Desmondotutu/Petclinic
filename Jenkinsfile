@@ -31,9 +31,9 @@ pipeline {
         stage('Sonar Analysis') {
             steps {
                withSonarQubeEnv('SonarqubeServer10'){
-                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Devops-CICD \
+                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=java \
                    -Dsonar.java.binaries=. \
-                   -Dsonar.projectKey=Devops-CICD '''
+                   -Dsonar.projectKey=java'''
                }
             }
         }
