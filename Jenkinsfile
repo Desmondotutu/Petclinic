@@ -2,75 +2,70 @@ pipeline {
     agent any
     environment {
         maven = tool 'maven3'
-        SCANNER_HOME= tool 'SonarQubeScanner5.0'
+        SCANNER_HOME = tool 'SonarQubeScanner5.0'
     }
 
     stages {
         stage('git-checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Desmondotutu/Petclinic.git'
+                git url: 'https://github.com/Desmondotutu/Petclinic.git'
             }
         }
 
         stage('Code-Compile') {
             steps {
-               sh "mvn clean compile"
-            }
-        }
-        
-		stage('OWASP Dependency Check') {
-            steps {
-               dependencyCheck additionalArguments: '', odcInstallation: 'DP-check'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                sh "mvn clean compile"
             }
         }
 
+        stage('OWASP Dependency Check') {
+            steps {
+                dependencyCheck additionalArguments: '', odcInstallation: 'DP-check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
 
         stage('Sonar Analysis') {
             steps {
-               withSonarQubeEnv('SonarqubeServer10'){
-                   sh "${SCANNER_HOME}/bin/sonar:sonar -Dsonar.projectKey=java"
-               }
-            }
-        }
-
-		 stage('trivy') {
-            steps {
-               sh "trivy trivy image imagename"
+                script {
+                    withSonarQubeEnv('SonarqubeServer10') {
+                        sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java"
+                    }
+                }
             }
         }
 
         stage('Code-Build') {
             steps {
-               sh "mvn clean install"
+                sh "mvn clean install"
             }
         }
 
-         stage('Docker Build') {
+        stage('Docker Build') {
             steps {
-               script{
-                   withDockerRegistry(credentialsId: '9ea0c4b0-721f-4219-be62-48a976dbeec0') {
-                    sh "docker build -t  petclinic . "
-                 }
-               }
+                script {
+                    docker.withRegistry('https://hub.docker.com/repository/docker/desmondo1/myimages', 'dockerHubCredentials') {
+                        sh "docker build -t petclinic ."
+                    }
+                }
+            }
+        }
+
+        stage('trivy') {
+            steps {
+                sh "trivy image petclinic"
             }
         }
 
         stage('Docker Push') {
             steps {
-               script{
-                   withDockerRegistry(credentialsId: '9ea0c4b0-721f-4219-be62-48a976dbeec0') {
-                    sh "docker tag devopscicd adijaiswal/petclinic:latest"
-                    sh "docker push  adijaiswal/petclinic:latest "
-                 }
-               }
+                script {
+                    docker.withRegistry('https://hub.docker.com/repository/docker/desmondo1/myimages', 'dockerHubCredentials') {
+                        sh "docker tag petclinic desmondo1/images:latest"
+                        sh "docker push desmondo1/images:latest"
+                    }
+                }
             }
         }
-		stage('Deploy to Tomcat') {
-            steps {
-               sh "  cp /home/ubuntu/myagent/_work/5/s/target/petclinic.war /opt/apache-tomcat-9.0.65/webapps/ "
-            }
-        }
-
     }
 }
