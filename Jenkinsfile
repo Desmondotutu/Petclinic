@@ -5,7 +5,7 @@ pipeline {
         maven 'maven3'
     }
     environment{
-        SCANNER_HOME= tool 'sonar-scanner'
+        SCANNER_HOME= tool 'SonarQubeScanner5.0'
     }
 
     stages {
@@ -31,7 +31,7 @@ pipeline {
 
         stage('Sonar Analysis') {
             steps {
-               withSonarQubeEnv('sonar'){
+               withSonarQubeEnv('SonarqubeServer10'){
                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Devops-CICD \
                    -Dsonar.java.binaries=. \
                    -Dsonar.projectKey=Devops-CICD '''
