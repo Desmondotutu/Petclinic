@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarqubeServer10') {
-                        sh "${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=java"
+                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
                     }
                 }
             }
