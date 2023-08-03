@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('git-checkout') {
+        stage('Git-checkout') {
             steps {
                 git url: 'https://github.com/Desmondotutu/Petclinic.git'
             }
