@@ -5,13 +5,6 @@ pipeline {
         SCANNER_HOME = tool 'SonarQubeScanner5.0'
     }
 
-    stages {
-        stage('Git-checkout') {
-            steps {
-                git url: 'https://github.com/Desmondotutu/Petclinic.git'
-            }
-        }
-
         stage('Code-Compile') {
             steps {
                 sh "mvn clean compile"
