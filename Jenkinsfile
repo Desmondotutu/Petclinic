@@ -3,7 +3,7 @@ pipeline {
     environment {
         maven = tool 'maven3'
         SCANNER_HOME = tool 'SonarQubeScanner5.0'
-        dependencyCheck = tool 'DP-Check'
+        DependencyCheck = tool 'DP-Check'
     }
      stages{
         stage('Code-Compile') {
@@ -14,8 +14,7 @@ pipeline {
 
         stage('OWASP Dependency Check') {
             steps {
-                dependencyCheck additionalArguments: '', odcInstallation: 'DP-check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+               sh "${DependencyCheck}/bin/dependency-check.sh --scan . dependencyCheckPublisher pattern: '**/dependency-check-report.xml'"
             }
         }
 
