@@ -4,7 +4,7 @@ pipeline {
         maven = tool 'maven3'
         SCANNER_HOME = tool 'SonarQubeScanner5.0'
     }
-
+     stages{
         stage('Code-Compile') {
             steps {
                 sh "mvn clean compile"
