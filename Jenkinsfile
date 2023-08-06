@@ -48,7 +48,7 @@ pipeline {
             steps{
                 script{
                   withDockerRegistry(credentialsId: 'dockerHubCredentials'){
-                   dockerImage push()
+                   sh 'docker push'
                     }
                 }
             }
