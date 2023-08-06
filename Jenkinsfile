@@ -48,7 +48,7 @@ pipeline {
             steps{
                 script{
                   withDockerRegistry(credentialsId: 'dockerHubCredentials', url: 'docker.io/desmondo/express') {
-                   dockerImage.push()
+                   docker push desmondo1/images:latest
                     }
                 }
             }
