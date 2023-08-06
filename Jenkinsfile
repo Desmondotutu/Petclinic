@@ -1,8 +1,7 @@
 pipeline {
     agent any
     environment {
-        maven = tool 'maven3'
-        SCANNER_HOME = tool 'SonarQubeScanner5.0'
+        mvn = tool 'maven3'
         DependencyCheck = tool 'DP-Check'
     }
      stages{
@@ -18,15 +17,14 @@ pipeline {
             }
         }
 
-        stage('Sonar Analysis') {
-            steps {
-                script {
-                    withSonarQubeEnv('SonarqubeServer10') {
-                        sh "${SCANNER_HOME}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic"
-                    }
-                }
-            }
+        stage('Static Code Analysis') {
+
+      steps {
+        withSonarQubeEnv('SonarqubeServer10') {
+          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic"
         }
+      }
+    }
 
         stage('Code-Build') {
             steps {
