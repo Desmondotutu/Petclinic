@@ -43,17 +43,6 @@ pipeline {
                 sh "trivy image petclinic"
             }
         }
-
-        stage('Docker Push') {
-            steps {
-                script {
-                    docker.withRegistry('docker.io/desmondo1/myimages', 'dockerHubCredentials') {
-                        sh "docker tag petclinic desmondo1/images:latest"
-                        sh "docker push desmondo1/images:latest"
-                    }
-                }
-            }
-        }
          stage('Push image to Hub'){
             steps{
                 script{
