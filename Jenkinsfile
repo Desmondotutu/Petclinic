@@ -35,6 +35,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 sh "docker build -t petclinic ."
+                sh "docker tag petclinic desmondo1/images:latest"
             }
         }
 
@@ -46,8 +47,7 @@ pipeline {
          stage('Push image to Hub'){
             steps{
                 script{
-                   docker tag petclinic desmondo1/images:latest
-                   docker.withRegistry(credentialsId: 'dockerHubCredentials') {
+                  withDockerRegistry(credentialsId: 'dockerHubCredentials', url: 'docker.io/desmondo/express') {
                    dockerImage.push()
                     }
                 }
