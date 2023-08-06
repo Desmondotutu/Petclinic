@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarqubeServer10') {
-                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic"
+                        sh "${SCANNER_HOME}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic"
                     }
                 }
             }
