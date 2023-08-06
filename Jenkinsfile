@@ -3,6 +3,7 @@ pipeline {
     environment {
         maven = tool 'maven3'
         SCANNER_HOME = tool 'SonarQubeScanner5.0'
+        dependencyCheck = tool 'DP-Check'
     }
      stages{
         stage('Code-Compile') {
