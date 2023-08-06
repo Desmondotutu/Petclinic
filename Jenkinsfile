@@ -34,11 +34,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                script {
-                    docker.withRegistry('https://docker.io/desmondo1/myimages', 'dockerHubCredentials') {
-                        sh "docker build -t petclinic ."
-                    }
-                }
+                sh "docker build -t petclinic ."
             }
         }
 
@@ -51,7 +47,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    docker.withRegistry('https://docker.io/desmondo1/myimages', 'dockerHubCredentials') {
+                    docker.withRegistry('docker.io/desmondo1/myimages', 'dockerHubCredentials') {
                         sh "docker tag petclinic desmondo1/images:latest"
                         sh "docker push desmondo1/images:latest"
                     }
