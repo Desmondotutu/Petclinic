@@ -47,7 +47,7 @@ pipeline {
          stage('Push image to Hub'){
             steps{
                 script{
-                  withDockerRegistry(credentialsId: 'dockerHubCredentials', url: 'docker.io/desmondo/express'){
+                  withDockerRegistry(credentialsId: 'dockerHubCredentials'){
                    dockerImage push()
                     }
                 }
