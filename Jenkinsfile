@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarqubeServer10') {
-                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic"
                     }
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/repository/docker/desmondo1/myimages', 'dockerHubCredentials') {
+                    docker.withRegistry('https://docker.io/desmondo1/myimages', 'dockerHubCredentials') {
                         sh "docker build -t petclinic ."
                     }
                 }
@@ -53,7 +53,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/repository/docker/desmondo1/myimages', 'dockerHubCredentials') {
+                    docker.withRegistry('https://docker.io/desmondo1/myimages', 'dockerHubCredentials') {
                         sh "docker tag petclinic desmondo1/images:latest"
                         sh "docker push desmondo1/images:latest"
                     }
