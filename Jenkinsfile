@@ -10,6 +10,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
+        stage('Code-Compile') {
+            steps {
+                sh "mvn test"
+            }
+        }
 
         stage('OWASP Dependency Check') {
             steps {
