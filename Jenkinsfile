@@ -35,7 +35,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 sh "docker build -t petclinic ."
-                sh "docker tag petclinic desmondo1/images:latest"
+                sh "docker tag petclinic desmondo1/myimages:latest"
             }
         }
 
@@ -48,7 +48,7 @@ pipeline {
             steps{
                 script{
                   withDockerRegistry(credentialsId: 'dockerHubCredentials'){
-                   sh 'docker push desmondo1/images:latest'
+                   sh 'docker push desmondo1/myimages:latest'
                     }
                 }
             }
