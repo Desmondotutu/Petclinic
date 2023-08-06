@@ -48,7 +48,7 @@ pipeline {
             steps{
                 script{
                   withDockerRegistry(credentialsId: 'dockerHubCredentials'){
-                   sh 'docker push'
+                   sh 'docker push desmondo1/express:latest'
                     }
                 }
             }
