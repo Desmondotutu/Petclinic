@@ -46,11 +46,10 @@ pipeline {
          stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([string(credentialsId: 'dockerHubCredentials', variable: 'dockerHubCredentials')]) {
-                   sh 'docker login -u desmondo1 -p ${dockerHubCredentials}'
+                   docker tag petclinic desmondo1/images:latest
+                   docker.withRegistry(credentialsId: 'dockerHubCredentials') {
+                   dockerImage.push()
                     }
-                    sh "docker tag petclinic desmondo1/images:latest"
-                    sh "docker push desmondo1/images:latest"
                 }
             }
         }
