@@ -9,14 +9,13 @@ pipeline {
             steps {
                 cleanWs()
             }
-
         }
         stage('Code-Compile') {
             steps {
                 sh "mvn clean compile"
             }
         }
-        stage('Code-Compile') {
+        stage('Code-Test') {
             steps {
                 sh "mvn test"
             }
