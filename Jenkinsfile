@@ -10,6 +10,11 @@ pipeline {
                 cleanWs()
             }
         }
+        stage("Checkout from SCM") {
+            steps {
+                checkout SCM
+            }
+        }
         stage('Code-Compile') {
             steps {
                 sh "mvn clean compile"
