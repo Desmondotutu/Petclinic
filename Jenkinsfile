@@ -5,12 +5,12 @@ pipeline {
         DependencyCheck = tool 'DP-Check'
     }
      stages{
-        stage('Code-Compile') {
+        stage('Code Compile') {
             steps {
                 sh "mvn clean compile"
             }
         }
-        stage('Code-Test') {
+        stage('Code Unit Test') {
             steps {
                 sh "mvn test"
             }
@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('Static Code Analysis') {
+        stage('Sonarqube Static Code Analysis') {
 
       steps {
         withSonarQubeEnv('SonarqubeServer10') {
@@ -31,25 +31,25 @@ pipeline {
       }
     }
 
-        stage('Code-Build') {
+        stage('Code Build') {
             steps {
                 sh "mvn clean install"
             }
         }
 
-        stage('Docker Build') {
+        stage('Docker Image Build') {
             steps {
                 sh "docker build -t petclinic ."
                 sh "docker tag petclinic desmondo1/myimages:latest"
             }
         }
 
-        stage('trivy') {
+        stage('Trivy Docker Image Scan') {
             steps {
                 sh "trivy image petclinic"
             }
         }
-         stage('Push image to Hub'){
+         stage('Push Image to DockerHub'){
             steps{
                 script{
                   withDockerRegistry(credentialsId: 'dockerHubCredentials'){
