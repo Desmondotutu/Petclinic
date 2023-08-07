@@ -12,7 +12,7 @@ pipeline {
         }
         stage("Checkout from SCM") {
             steps {
-                checkout SCM
+                git url: 'https://github.com/Desmondotutu/Petclinic.git'
             }
         }
         stage('Code-Compile') {
