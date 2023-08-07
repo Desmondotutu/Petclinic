@@ -5,16 +5,6 @@ pipeline {
         DependencyCheck = tool 'DP-Check'
     }
      stages{
-        stage("Cleanup Workspace"){
-            steps {
-                cleanWs()
-            }
-        }
-        stage("Checkout from SCM") {
-            steps {
-                git url: 'https://github.com/Desmondotutu/Petclinic.git'
-            }
-        }
         stage('Code-Compile') {
             steps {
                 sh "mvn clean compile"
