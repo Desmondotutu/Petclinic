@@ -27,9 +27,16 @@ pipeline {
       steps {
         withSonarQubeEnv('SonarqubeServer10') {
           sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic"
-        }
-      }
-    }
+          }
+         }
+       }
+       stage('Quality Gate') {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar'
+                }
+            }
+        } 
 
         stage('Code Build') {
             steps {
